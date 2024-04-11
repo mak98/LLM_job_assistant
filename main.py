@@ -33,7 +33,7 @@ def gpt3():
         mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     )
 
-def gpt3():
+def gpt4():
     st.write(st.session_state["gpt4"])
     prompt = st.chat_input("Enter Only The Job Description Here")
     if prompt:
