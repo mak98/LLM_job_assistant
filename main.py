@@ -1,8 +1,6 @@
 import streamlit as st
-import PyPDF2
-import os
-
 from cover_letter_bot import CoverLetterBot
+
 bot3=CoverLetterBot("gpt-3.5-turbo")
 bot4=CoverLetterBot("gpt-4-turbo")
 if not st.session_state.keys():
