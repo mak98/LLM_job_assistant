@@ -33,7 +33,7 @@ def gpt3():
         mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     )
 
-def gpt4():
+def gpt3():
     st.write(st.session_state["gpt4"])
     prompt = st.chat_input("Enter Only The Job Description Here")
     if prompt:
@@ -41,8 +41,13 @@ def gpt4():
         bot4.generate_cover_letter(prompt)
         st.write(f"Cover Letter:{bot4.cover_letter}")
         st.session_state["gpt4"]+=f"Cover Letter:{bot4.cover_letter}"
-    if st.button("Export to docx"):
-        bot4.create_word_doc()
+        doc_buffer=bot4.create_word_doc()
+        st.download_button(
+        label="Download Cover Letter",
+        data=doc_buffer,
+        file_name=bot4.file_name,
+        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    )
 def main():
     st.sidebar.title('Navigation')
     selected = st.sidebar.radio('Go to', ["Upload Resume","GPT3.5","GPT4"])
