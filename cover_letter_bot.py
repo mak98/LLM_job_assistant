@@ -6,8 +6,7 @@ from docx import Document
 import PyPDF2
 import json
 from io import BytesIO
-from dotenv import load_dotenv
-load_dotenv()
+import streamlit as st
 
 class OutputParser(BaseOutputParser):
     def parse(self,text:str):
@@ -17,7 +16,7 @@ class OutputParser(BaseOutputParser):
         return ret
 class CoverLetterBot():
     def __init__(self,name):
-        chat_model=ChatOpenAI(model_name=name)
+        chat_model=ChatOpenAI(model_name=name,api_key=st.secrets.OPENAI_API_KEY)
         system_template=open('Prompts/prompt1.txt', 'r').read()
         human_template="Resume:{resume}\nJob Description:{job_description}"
         system_message_prompt=SystemMessagePromptTemplate.from_template(system_template)
