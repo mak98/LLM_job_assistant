@@ -63,7 +63,7 @@ class JobBot():
             self.job_bot=job_bot
             chat_model=ChatOpenAI(model_name=name,api_key=st.secrets.OPENAI_API_KEY)
             system_template=open('Prompts/prompt_recruiter_message.txt', 'r').read()
-            human_template="Resume:{resume}\nContext/Job Description:{context}"
+            human_template="Resume:{resume}\nContext:{context}"
             system_message_prompt=SystemMessagePromptTemplate.from_template(system_template)
             human_message_prompt=HumanMessagePromptTemplate.from_template(human_template)
             chat_prompt=ChatPromptTemplate.from_messages([system_message_prompt,human_message_prompt])
@@ -76,6 +76,7 @@ class JobBot():
             self.message=""
             self.bot_response=""
         def generate_message(self,context):
-            self.context=context
+            self.context+="\nUser message:"+context
             self.bot_response=self.chain.run(resume=self.job_bot.resume,context=self.context)
             self.message=self.bot_response["message"]
+            self.context+="\n Bot response:"+self.message
