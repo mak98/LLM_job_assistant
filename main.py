@@ -1,16 +1,12 @@
 import streamlit as st
 from job_bot import JobBot
-import pyperclip
+
 
 if not st.session_state.keys():
     st.session_state.job_bot=JobBot()
     for i in st.session_state.keys():
         print(i)
 
-
-def copy_to_clipboard(text):
-    pyperclip.copy(text)
-    st.success("Copied to clipboard!")
 
 def upload_pdf():
     st.title("Upload Resume in PDF")
@@ -65,10 +61,22 @@ def recruiter_message():
         st.session_state.recruiter_message_gpt4.generate_message(prompt)
         st.header("Bot:")
         st.code(f"{st.session_state.recruiter_message_gpt4.message}",language="text")
-        
+
+def optimize_resume():
+    st.title("Optimize Resume for a job")
+    st.header("Bot:")
+    st.write("Paste job description")
+    prompt = st.chat_input("Enter Job Description Here")
+    if prompt:
+        st.header("User:")
+        st.write(prompt)
+        st.session_state.optimize_resume_gpt4.optimize_resume(prompt)
+        st.header("Bot:")
+        st.session_state.optimize_resume_gpt4.render_output()
+
 def main():
     st.sidebar.title('Navigation')
-    selected = st.sidebar.radio('Go to', ["Upload Resume","Cover Letter - GPT3.5","Cover Letter - GPT4","Recruiter Message - GPT4"])
+    selected = st.sidebar.radio('Go to', ["Upload Resume","Cover Letter - GPT3.5","Cover Letter - GPT4","Recruiter Message - GPT4","Optimize Resume - GPT4"])
     for i in st.session_state.keys():
         print(i)
     if selected=="Upload Resume":
@@ -85,6 +93,10 @@ def main():
         if 'recruiter_message_gpt4' not in st.session_state.keys():
             st.session_state.recruiter_message_gpt4=st.session_state.job_bot.RecruiterMessage("gpt-4-turbo",st.session_state.job_bot)
         recruiter_message()
+    elif selected=="Optimize Resume - GPT4":
+        if 'optimize_resume_gpt4' not in st.session_state.keys():
+            st.session_state.optimize_resume_gpt4=st.session_state.job_bot.OptimizeResume("gpt-4-turbo",st.session_state.job_bot)
+        optimize_resume()
 
 
 if __name__ == "__main__":

@@ -1,7 +1,5 @@
 langchain
 openai
-python-dotenv
 python-docx
 streamlit-extras
 PyPDF2
-pyperclip
