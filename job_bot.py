@@ -11,14 +11,12 @@ import streamlit as st
 
 class OutputParser(BaseOutputParser):
     def parse(self,text:str):
-        print(text)
         ret=json.loads(text.strip())
         for i in ret.keys():
             ret[i]=ret[i].replace("\\n","\n")
         return ret
 class JSONOutputParser(BaseOutputParser):
     def parse(self,text:str):
-        print(text)
         ret=json.loads(text.strip())
         return ret
 class JobBot():
@@ -51,10 +49,8 @@ class JobBot():
             self.bot_response=self.chain.run(resume=self.job_bot.resume,job_description=job_description)
             self.cover_letter=self.bot_response.get("Cover Letter")
             self.file_name=f'Cover Letter-{self.bot_response.get("Job Title")}.docx'
-            # print(self.file_name)
         def create_word_doc(self):
             document = Document()
-            # print(self.cover_letter)
             paragraphs = self.cover_letter.split('\n')
             for paragraph in paragraphs:
                 document.add_paragraph(paragraph)
@@ -107,33 +103,16 @@ class JobBot():
             self.bot_response=self.chain.run(resume=self.job_bot.resume,job_description=job_description)
         def render_output(self):
             st.header(f'Job Match:{self.bot_response["Job match score"]}')
-
-            # st.header("Skills Found:")
-            # list_html = "<ul>"
-            # for item in self.bot_response["Skills Found"]:
-            #     list_html += f"<li>{item}</li>"
-            # list_html += "</ul>"
-            # st.markdown(list_html, unsafe_allow_html=True)
-
-            # st.header("Skills in Job Description")
-            # list_html = "<ul>"
-            # for item in self.bot_response["Job keywords"]:
-            #     list_html += f"<li>{item}</li>"
-            # list_html += "</ul>"
-            # st.markdown(list_html, unsafe_allow_html=True)
-            # Construct HTML string for Skills Found
             skills_found_html = "<h2>Skills Found:</h2><ul>"
             for item in self.bot_response["Skills Found"]:
                 skills_found_html += f"<li>{item}</li>"
             skills_found_html += "</ul>"
 
-            # Construct HTML string for Skills in Job Description
             skills_description_html = "<h2>Skills in Job Description:</h2><ul>"
             for item in self.bot_response["Job keywords"]:
                 skills_description_html += f"<li>{item}</li>"
             skills_description_html += "</ul>"
 
-            # Display both HTML strings side by side using CSS
             st.markdown(
                 f"""
                 <div style="display:flex">
@@ -147,14 +126,12 @@ class JobBot():
                 """,
                 unsafe_allow_html=True
             )
-
             st.header("Missing Skills")
             list_html = "<ul>"
             for item in self.bot_response["missing skills"]:
                 list_html += f"<li>{item}</li>"
             list_html += "</ul>"
             st.markdown(list_html, unsafe_allow_html=True)
-
             st.header("Suggested Resume Changes:")
             for i in self.bot_response["Suggestions"]:
                 st.header(i)

@@ -4,8 +4,6 @@ from job_bot import JobBot
 
 if not st.session_state.keys():
     st.session_state.job_bot=JobBot()
-    for i in st.session_state.keys():
-        print(i)
 
 
 def upload_pdf():
@@ -17,6 +15,7 @@ def upload_pdf():
         st.success("PDF file uploaded successfully!")
     st.header("Parsed Resume:")
     st.write(st.session_state.job_bot.resume)
+
 def cover_letter_gpt3():
     st.title("Cover Letter GPT3")
     st.header("Enter Job Description:")
@@ -73,12 +72,9 @@ def optimize_resume():
         st.session_state.optimize_resume_gpt4.optimize_resume(prompt)
         st.header("Bot:")
         st.session_state.optimize_resume_gpt4.render_output()
-
 def main():
     st.sidebar.title('Navigation')
     selected = st.sidebar.radio('Go to', ["Upload Resume","Cover Letter - GPT3.5","Cover Letter - GPT4","Recruiter Message - GPT4","Optimize Resume - GPT4"])
-    for i in st.session_state.keys():
-        print(i)
     if selected=="Upload Resume":
         upload_pdf()
     elif selected=="Cover Letter - GPT3.5":
