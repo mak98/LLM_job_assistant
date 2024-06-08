@@ -1,5 +1,5 @@
 import streamlit as st
-from job_bot import JobBot
+from services.job_bot import JobBot
 
 
 if not st.session_state.keys():
