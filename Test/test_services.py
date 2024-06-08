@@ -1,8 +1,6 @@
 import pytest
 from io import BytesIO
-import sys
-sys.path.insert(0,"../")
-from bot_services.job_bot import JobBot
+from job_bot import JobBot
 
 def test_parse_resume():
     job_bot = JobBot()
